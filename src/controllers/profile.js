@@ -1,13 +1,10 @@
 const model = require('../models/profile')
 const respons = require('../helpers/response')
 const S3 = require('aws-sdk').S3;
-const multer = require('multer');
-const multerS3 = require('multer-s3');
 const { v4: uuidv4 } = require('uuid');
 
 
 class Profile {
-    S3_BUCKET = 'lab-storage'
 
     async commit(req, res) {
         try {
@@ -36,6 +33,16 @@ class Profile {
         }
     }
 
+    async getById(req, res) {
+        try {
+            const result = await model.getById(req.params.id)
+            return respons(res, 200, result)
+        } catch (error) {
+            console.log(error)
+            return respons(res, 400, error)
+        }
+    }
+
     async addProfile(req, res) {
         try {
             const s3 = new S3({
@@ -46,15 +53,6 @@ class Profile {
             const file = req.files.image
             const body = req.body
             console.log(req.files.image);
-
-            // if (!req.files.image) {
-            //     return respons(res, 400, 'upload file is required')
-            // }
-            // if (body.name === '' || body.age === '' ||
-            //     body.dateOfBirth === '' || body.whatsappNumber === '' ||
-            //     body.homeTown === '' || body.lastEducation === '') {
-            //     return respons(res, 400, 'Field is required')
-            // }
 
             // upload to object storage 500px image
             const params500 = {

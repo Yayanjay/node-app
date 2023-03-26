@@ -86,6 +86,15 @@ class Profile {
         })
     }
 
+    async getById(id) {
+        try {
+            const profile = this.Profile.findByPk(id)
+            return profile
+        } catch (error) {
+            console.log(error)
+            return error
+        }
+    }
 
 
     async addProfile(data) {
