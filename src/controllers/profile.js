@@ -47,9 +47,9 @@ class Profile {
     async addProfile(req, res) {
         try {
             const s3 = new S3({
-                secretAccessKey: 'OwvdpnHuHqbfHDXdZEWjbr6uqvmBcvlN9TxOIrV4',
-                accessKeyId: 'M2RDIPWZ4ZP3E8DYFX76',
-                endpoint: 'https://is3.cloudhost.id/lab-storage',
+                secretAccessKey: process.env.ICH_SECRET_ACCESS_KEY,
+                accessKeyId: process.env.ICH_ACCESS_KEY_ID,
+                endpoint: process.env.ICH_ENDPOINT,
             });
             const file = req.files.image
             const body = req.body
@@ -61,7 +61,7 @@ class Profile {
 
             // upload to object storage 500px image
             const params500 = {
-                Bucket: 'lab-storage',
+                Bucket: process.env.ICH_S3_BUCKET,
                 Key: `image/profile/500/${uuidv4()}_${file.name}`,
                 Body: image500,
                 ACL: 'public-read',
@@ -72,7 +72,7 @@ class Profile {
 
             // upload to object storage 1000px image
             const params1000 = {
-                Bucket: 'lab-storage',
+                Bucket: process.env.ICH_S3_BUCKET,
                 Key: `image/profile/1000/${uuidv4()}_${file.name}`,
                 Body: image1000,
                 ACL: 'public-read',
@@ -103,9 +103,9 @@ class Profile {
     async updateProfile(req, res) {
         try {
             const s3 = new S3({
-                secretAccessKey: 'OwvdpnHuHqbfHDXdZEWjbr6uqvmBcvlN9TxOIrV4',
-                accessKeyId: 'M2RDIPWZ4ZP3E8DYFX76',
-                endpoint: 'https://is3.cloudhost.id/lab-storage',
+                secretAccessKey: process.env.ICH_SECRET_ACCESS_KEY,
+                accessKeyId: process.env.ICH_ACCESS_KEY_ID,
+                endpoint: process.env.ICH_ENDPOINT,
             });
             const file = req.files
             const body = req.body
@@ -126,7 +126,7 @@ class Profile {
 
                 // upload to object storage 500px image
                 const params500 = {
-                    Bucket: 'lab-storage',
+                    Bucket: process.env.ICH_S3_BUCKET,
                     Key: `image/profile/500/${uuidv4()}_${file.image.name}`,
                     Body: image500,
                     ACL: 'public-read',
@@ -137,7 +137,7 @@ class Profile {
 
                 // upload to object storage 1000px image
                 const params1000 = {
-                    Bucket: 'lab-storage',
+                    Bucket: process.env.ICH_S3_BUCKET,
                     Key: `image/profile/1000/${uuidv4()}_${file.image.name}`,
                     Body: image1000,
                     ACL: 'public-read',

@@ -1,3 +1,4 @@
+require('dotenv').config()
 const express = require('express');
 const fileUpload = require('express-fileupload');
 const db = require('./src/configs/db')
@@ -13,6 +14,7 @@ app.use(routes)
 db.connection()
 
 app.get('/', (req, res) => {
+    console.log(process.env.DATABASE_USERNAME);
     res.send('Hello World!')
 })
 

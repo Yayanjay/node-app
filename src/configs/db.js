@@ -3,13 +3,13 @@ const { Sequelize } = require('sequelize')
 class Connect {
     constructor() {
         this.sequelize = new Sequelize(
-            'postgres', //db name
-            'postgres', //db user
-            'seqP3SKYXczRextw', //db pass
+            `${process.env.DATABASE_NAME}`, //db name
+            `${process.env.DATABASE_USERNAME}`, //db user
+            `${process.env.DATABASE_PASSWORD}`, //db pass
             {
                 dialect: 'postgres',
-                host: 'db.qbklfulimtyotsqgpzhk.supabase.co',
-                port: '5432'
+                host: `${process.env.DATABASE_HOST}`,
+                port: process.env.DATABASE_PORT
             }
         )
     }
