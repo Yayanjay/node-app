@@ -71,7 +71,7 @@ class Profile {
         return new Promise((resolve, reject) => {
             this.Profile.findAll({
                 order: [['id', 'ASC']],
-                attributes: { exclude: ['id'] }
+                // attributes: { exclude: ['id'] }
             })
                 .then((res) => {
                     if (res.length == 0) {
@@ -88,7 +88,8 @@ class Profile {
 
     async getById(id) {
         try {
-            const profile = this.Profile.findByPk(id)
+            const profile = await this.Profile.findByPk(id)
+
             return profile
         } catch (error) {
             console.log(error)
@@ -102,7 +103,7 @@ class Profile {
             const profile = await this.Profile.create(
                 data
             )
-            const { id, results } = profile.toJSON()
+            const { id, ...results } = profile.toJSON()
             return results
         } catch (error) {
             console.log(error)
@@ -110,46 +111,16 @@ class Profile {
         }
     }
 
-    // async updateMahasiswa(data, id) {
-    //     try {
-    //         const [results] = await db.sequelize.query(`
-    //             UPDATE kampus.mahasiswas
-    //             SET name = '${data.name}', address = '${data.address}'
-    //             WHERE id = '${id}';
-    //         `);
-    //         return results
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
-
-    // async deleteMahasiswa(id) {
-    //     try {
-    //         const [results] = await db.sequelize.query(`
-    //             DELETE FROM kampus.mahasiswas
-    //             WHERE id = '${id}';
-    //         `);
-    //         return results
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
-
-    // async avgScoreMahasiswa(id) {
-    //     try {
-    //         const [results] = await db.sequelize.query(`
-    //             SELECT m.name, AVG(n.nilai) as average FROM mahasiswas m 
-    //             JOIN nilais n ON m.id = n.id_mahasiswa
-    //             WHERE m.id = '${id}';
-    //         `);
-    //         return results
-    //     } catch (error) {
-    //         console.log(error)
-    //         return error
-    //     }
-    // }
+    async updateProfile(profileId, data) {
+        try {
+            const res = await this.Profile.update(data, { where: { id: profileId } });
+            console.log(res);
+            return res;
+        } catch (error) {
+            console.log(error);
+            return error;
+        }
+    }
 
 }
 
